@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)https://blockly-demo.appspot.com/static/demos/code/index.html -->
+<html dir="ltr" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style id="blockly-renderer-style-geras-classic">.geras-renderer.classic-theme .blocklyText, 
+.geras-renderer.classic-theme .blocklyFlyoutLabelText {
+font: normal 11pt sans-serif;
+}
+.geras-renderer.classic-theme .blocklyText {
+fill: #fff;
+}
+.geras-renderer.classic-theme .blocklyNonEditableField>rect,
+.geras-renderer.classic-theme .blocklyEditableField>rect {
+fill: #fff;
+fill-opacity: .6;
+stroke: none;
+}
+.geras-renderer.classic-theme .blocklyNonEditableField>text,
+.geras-renderer.classic-theme .blocklyEditableField>text {
+fill: #000;
+}
+.geras-renderer.classic-theme .blocklyFlyoutLabelText {
+fill: #000;
+}
+.geras-renderer.classic-theme .blocklyText.blocklyBubbleText {
+fill: #000;
+}
+.geras-renderer.classic-theme .blocklyEditableField:not(.blocklyEditing):hover>rect {
+stroke: #fff;
+stroke-width: 2;
+}
+.geras-renderer.classic-theme .blocklyHtmlInput {
+font-family: sans-serif;
+font-weight: normal;
+}
+.geras-renderer.classic-theme .blocklySelected>.blocklyPath {
+stroke: #fc3;
+stroke-width: 3px;
+}
+.geras-renderer.classic-theme .blocklyHighlightedConnectionPath {
+stroke: #fc3;
+}
+.geras-renderer.classic-theme .blocklyReplaceable .blocklyPath {
+fill-opacity: .5;
+}
+.geras-renderer.classic-theme .blocklyReplaceable .blocklyPathLight,
+.geras-renderer.classic-theme .blocklyReplaceable .blocklyPathDark {
+display: none;
+}
+.geras-renderer.classic-theme .blocklyInsertionMarker>.blocklyPath {
+fill-opacity: 0.2;
+stroke: none;
+}
+.geras-renderer.classic-theme .blocklyInsertionMarker>.blocklyPathLight,
+.geras-renderer.classic-theme .blocklyInsertionMarker>.blocklyPathDark {
+fill-opacity: 0.2;
+stroke: none;
+}</style><style id="blockly-common-style">
+.blocklySvg {
+  background-color: #fff;
+  outline: none;
+  overflow: hidden;  /* IE overflows by default. */
+  position: absolute;
+  display: block;
+}
+
+.blocklyWidgetDiv {
+  display: none;
+  position: absolute;
+  z-index: 99999;  /* big value for bootstrap3 compatibility */
+}
+
+.injectionDiv {
+  height: 100%;
+  position: relative;
+  overflow: hidden;  /* So blocks in drag surface disappear at edges */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.blocklyBlockCanvas.blocklyCanvasTransitioning,
+.blocklyBubbleCanvas.blocklyCanvasTransitioning {
+  transition: transform .5s;
+}
+
+.blocklyEmboss {
+  filter: var(--blocklyEmbossFilter);
+}
+
+.blocklyTooltipDiv {
+  background-color: #ffffc7;
+  border: 1px solid #ddc;
+  box-shadow: 4px 4px 20px 1px rgba(0,0,0,.15);
+  color: #000;
+  display: none;
+  font: 9pt sans-serif;
+  opacity: .9;
+  padding: 2px;
+  position: absolute;
+  z-index: 100000;  /* big value for bootstrap3 compatibility */
+}
+
+.blocklyDropDownDiv {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  display: none;
+  border: 1px solid;
+  border-color: #dadce0;
+  background-color: #fff;
+  border-radius: 2px;
+  padding: 4px;
+  box-shadow: 0 0 3px 1px rgba(0,0,0,.3);
+}
+
+.blocklyDropDownDiv:focus {
+  box-shadow: 0 0 6px 1px rgba(0,0,0,.3);
+}
+
+.blocklyDropDownContent {
+  max-height: 300px;  /* @todo: spec for maximum height. */
+}
+
+.blocklyDropDownArrow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  z-index: -1;
+  background-color: inherit;
+  border-color: inherit;
+  border-top: 1px solid;
+  border-left: 1px solid;
+  border-top-left-radius: 4px;
+  border-color: inherit;
+}
+
+.blocklyHighlighted>.blocklyPath {
+  filter: var(--blocklyEmbossFilter);
+}
+
+.blocklyHighlightedConnectionPath {
+  fill: none;
+  stroke: #fc3;
+  stroke-width: 4px;
+}
+
+.blocklyPathLight {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 1;
+}
+
+.blocklySelected>.blocklyPathLight {
+  display: none;
+}
+
+.blocklyDraggable {
+  cursor: grab;
+  cursor: -webkit-grab;
+}
+
+.blocklyDragging {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+  /* Drag surface disables events to not block the toolbox, so we have to
+   * reenable them here for the cursor values to work. */
+  pointer-events: auto;
+}
+
+  /* Changes cursor on mouse down. Not effective in Firefox because of
+     https://bugzilla.mozilla.org/show_bug.cgi?id=771241 */
+.blocklyDraggable:active {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+}
+
+.blocklyDragging.blocklyDraggingDelete,
+.blocklyDragging.blocklyDraggingDelete .blocklyField {
+  cursor: url("../../media/handdelete.cur"), auto;
+}
+
+.blocklyDragging>.blocklyPath,
+.blocklyDragging>.blocklyPathLight {
+  fill-opacity: .8;
+  stroke-opacity: .8;
+}
+
+.blocklyDragging>.blocklyPathDark {
+  display: none;
+}
+
+.blocklyDisabledPattern>.blocklyPath {
+  fill: var(--blocklyDisabledPattern);
+  fill-opacity: .5;
+  stroke-opacity: .5;
+}
+
+.blocklyDisabled>.blocklyPathLight,
+.blocklyDisabled>.blocklyPathDark {
+  display: none;
+}
+
+.blocklyInsertionMarker>.blocklyPath,
+.blocklyInsertionMarker>.blocklyPathLight,
+.blocklyInsertionMarker>.blocklyPathDark {
+  fill-opacity: .2;
+  stroke: none;
+}
+
+.blocklyNonEditableField>text {
+  pointer-events: none;
+}
+
+.blocklyFlyout {
+  position: absolute;
+  z-index: 20;
+}
+
+.blocklyText text {
+  cursor: default;
+}
+
+/*
+  Don't allow users to select text.  It gets annoying when trying to
+  drag a block and selected text moves instead.
+*/
+.blocklySvg text {
+  user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  cursor: inherit;
+}
+
+.blocklyIconGroup {
+  cursor: default;
+}
+
+.blocklyIconGroup:not(:hover):not(:focus),
+.blocklyIconGroupReadonly {
+  opacity: .6;
+}
+
+.blocklyIconShape {
+  fill: #00f;
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
+.blocklyIconSymbol {
+  fill: #fff;
+}
+
+.blocklyMinimalBody {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.blocklyHtmlInput {
+  border: none;
+  border-radius: 4px;
+  height: 100%;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  width: 100%;
+  text-align: center;
+  display: block;
+  box-sizing: border-box;
+}
+
+/* Remove the increase and decrease arrows on the field number editor */
+input.blocklyHtmlInput[type=number]::-webkit-inner-spin-button,
+input.blocklyHtmlInput[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.blocklyMainBackground {
+  stroke-width: 1;
+  stroke: #c6c6c6;  /* Equates to #ddd due to border being off-pixel. */
+}
+
+.blocklyMutatorBackground {
+  fill: #fff;
+  stroke: #ddd;
+  stroke-width: 1;
+}
+
+.blocklyFlyoutBackground {
+  fill: #ddd;
+  fill-opacity: .8;
+}
+
+.blocklyMainWorkspaceScrollbar {
+  z-index: 20;
+}
+
+.blocklyFlyoutScrollbar {
+  z-index: 30;
+}
+
+.blocklyScrollbarHorizontal,
+.blocklyScrollbarVertical {
+  position: absolute;
+  outline: none;
+}
+
+.blocklyScrollbarBackground {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.blocklyScrollbarHandle {
+  fill: #ccc;
+}
+
+.blocklyScrollbarBackground:hover+.blocklyScrollbarHandle,
+.blocklyScrollbarHandle:hover {
+  fill: #bbb;
+}
+
+/* Darken flyout scrollbars due to being on a grey background. */
+/* By contrast, workspace scrollbars are on a white background. */
+.blocklyFlyout .blocklyScrollbarHandle {
+  fill: #bbb;
+}
+
+.blocklyFlyout .blocklyScrollbarBackground:hover+.blocklyScrollbarHandle,
+.blocklyFlyout .blocklyScrollbarHandle:hover {
+  fill: #aaa;
+}
+
+.blocklyInvalidInput {
+  background: #faa;
+}
+
+.blocklyVerticalMarker {
+  stroke-width: 3px;
+  fill: rgba(255,255,255,.5);
+  pointer-events: none;
+}
+
+.blocklyComputeCanvas {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.blocklyNoPointerEvents {
+  pointer-events: none;
+}
+
+.blocklyContextMenu {
+  border-radius: 4px;
+  max-height: 100%;
+}
+
+.blocklyDropdownMenu {
+  border-radius: 2px;
+  padding: 0 !important;
+}
+
+.blocklyDropdownMenu .blocklyMenuItem {
+  /* 28px on the left for icon or checkbox. */
+  padding-left: 28px;
+}
+
+/* BiDi override for the resting state. */
+.blocklyDropdownMenu .blocklyMenuItemRtl {
+  /* Flip left/right padding for BiDi. */
+  padding-left: 5px;
+  padding-right: 28px;
+}
+
+.blocklyWidgetDiv .blocklyMenu {
+  user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  background: #fff;
+  border: 1px solid transparent;
+  box-shadow: 0 0 3px 1px rgba(0,0,0,.3);
+  font: normal 13px Arial, sans-serif;
+  margin: 0;
+  outline: none;
+  padding: 4px 0;
+  position: absolute;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 100%;
+  z-index: 20000;  /* Arbitrary, but some apps depend on it... */
+}
+
+.blocklyWidgetDiv .blocklyMenu:focus {
+  box-shadow: 0 0 6px 1px rgba(0,0,0,.3);
+}
+
+.blocklyDropDownDiv .blocklyMenu {
+  user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  background: inherit;  /* Compatibility with gapi, reset from goog-menu */
+  border: inherit;  /* Compatibility with gapi, reset from goog-menu */
+  font: normal 13px "Helvetica Neue", Helvetica, sans-serif;
+  outline: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 100%;
+  z-index: 20000;  /* Arbitrary, but some apps depend on it... */
+}
+
+/* State: resting. */
+.blocklyMenuItem {
+  border: none;
+  color: #000;
+  cursor: pointer;
+  list-style: none;
+  margin: 0;
+  /* 7em on the right for shortcut. */
+  min-width: 7em;
+  padding: 6px 15px;
+  white-space: nowrap;
+}
+
+/* State: disabled. */
+.blocklyMenuItemDisabled {
+  color: #ccc;
+  cursor: inherit;
+}
+
+/* State: hover. */
+.blocklyMenuItemHighlight {
+  background-color: rgba(0,0,0,.1);
+}
+
+/* State: selected/checked. */
+.blocklyMenuItemCheckbox {
+  height: 16px;
+  position: absolute;
+  width: 16px;
+}
+
+.blocklyMenuItemSelected .blocklyMenuItemCheckbox {
+  background: url(../../media/sprites.png) no-repeat -48px -16px;
+  float: left;
+  margin-left: -24px;
+  position: static;  /* Scroll with the menu. */
+}
+
+.blocklyMenuItemRtl .blocklyMenuItemCheckbox {
+  float: right;
+  margin-right: -24px;
+}
+
+.blocklyMenuSeparator {
+  background-color: #ccc;
+  height: 1px;
+  border: 0;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.blocklyBlockDragSurface, .blocklyAnimationLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: visible !important;
+  z-index: 80;
+  pointer-events: none;
+}
+
+.blocklyField {
+  cursor: default;
+}
+
+.blocklyInputField {
+  cursor: text;
+}
+
+.blocklyDragging .blocklyField,
+.blocklyDragging .blocklyIconGroup {
+  cursor: grabbing;
+}
+
+.blocklyActiveFocus:is(
+  .blocklyFlyout,
+  .blocklyWorkspace,
+  .blocklyField,
+  .blocklyPath,
+  .blocklyHighlightedConnectionPath,
+  .blocklyComment,
+  .blocklyBubble,
+  .blocklyIconGroup,
+  .blocklyTextarea
+) {
+  outline: none;
+}
+
+
+.blocklyZoom>image, .blocklyZoom>svg>image {
+  opacity: .4;
+}
+
+.blocklyZoom>image:hover, .blocklyZoom>svg>image:hover {
+  opacity: .6;
+}
+
+.blocklyZoom>image:active, .blocklyZoom>svg>image:active {
+  opacity: .8;
+}
+
+
+.blocklyToast {
+  font-size: 1.2rem;
+  position: absolute;
+  bottom: -10rem;
+  right: 2rem;
+  padding: 1rem;
+  color: black;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 0.4rem;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  line-height: 1.5;
+  transition: bottom 0.3s ease-out;
+}
+
+.blocklyToast .blocklyToastMessage {
+  maxWidth: 18rem;
+}
+
+.blocklyToast .blocklyToastCloseButton {
+  margin: 0;
+  padding: 0.2rem;
+  background-color: transparent;
+  color: black;
+  border: none;
+  cursor: pointer;
+}
+
+
+.injectionDiv {
+  --commentFillColour: #FFFCC7;
+  --commentBorderColour: #F2E49B;
+}
+
+.blocklyComment .blocklyTextarea {
+  background-color: var(--commentFillColour);
+  border: 1px solid var(--commentBorderColour);
+  box-sizing: border-box;
+  display: block;
+  outline: 0;
+  padding: 5px;
+  resize: none;
+  width: 100%;
+  height: 100%;
+}
+
+.blocklyReadonly.blocklyComment .blocklyTextarea {
+  cursor: inherit;
+}
+
+.blocklyDeleteIcon {
+  width: 20px;
+  height: 20px;
+  display: none;
+  cursor: pointer;
+}
+
+.blocklyFoldoutIcon {
+  width: 20px;
+  height: 20px;
+  transform-origin: 12px 12px;
+  cursor: pointer;
+}
+.blocklyResizeHandle {
+  width: 12px;
+  height: 12px;
+  cursor: se-resize;
+}
+.blocklyReadonly.blocklyComment .blocklyResizeHandle {
+  cursor: inherit;
+}
+
+.blocklyCommentTopbarBackground {
+  fill: var(--commentBorderColour);
+  height: 24px;
+}
+
+.blocklyComment .blocklyCommentPreview.blocklyText {
+  fill: #000;
+  dominant-baseline: middle;
+  visibility: hidden;
+}
+
+.blocklyCollapsed.blocklyComment .blocklyCommentPreview {
+  visibility: visible;
+}
+
+.blocklyCollapsed.blocklyComment .blocklyCommentForeignObject,
+.blocklyCollapsed.blocklyComment .blocklyResizeHandle {
+  display: none;
+}
+
+.blocklyCollapsed.blocklyComment .blocklyFoldoutIcon {
+  transform: rotate(-90deg);
+}
+
+.blocklyRTL .blocklyCommentTopbar {
+  transform: scale(-1, 1);
+}
+
+.blocklyRTL .blocklyCommentForeignObject {
+  direction: rtl;
+}
+
+.blocklyRTL .blocklyCommentPreview {
+  /* Revert the scale and control RTL using direction instead. */
+  transform: scale(-1, 1);
+  direction: rtl;
+}
+
+.blocklyRTL .blocklyResizeHandle {
+  transform: scale(-1, 1);
+  cursor: sw-resize;
+}
+
+.blocklyCommentHighlight {
+  fill: none;
+}
+
+.blocklyCommentText.blocklyActiveFocus {
+  border-color: #fc3;
+  border-width: 2px;
+}
+
+.blocklySelected .blocklyCommentHighlight {
+  stroke: #fc3;
+  stroke-width: 3px;
+}
+
+.blocklyCollapsed.blocklySelected .blocklyCommentHighlight {
+  stroke: none;
+}
+
+.blocklyCollapsed.blocklySelected .blocklyCommentTopbarBackground {
+  stroke: #fc3;
+  stroke-width: 3px;
+}
+
+
+.blocklyTextInputBubble .blocklyTextarea {
+  background-color: var(--commentFillColour);
+  border: 0;
+  box-sizing: border-box;
+  display: block;
+  outline: 0;
+  padding: 5px;
+  resize: none;
+  width: 100%;
+  height: 100%;
+}
+
+
+.blocklyFlyoutButton {
+  fill: #888;
+  cursor: default;
+}
+
+.blocklyFlyoutButtonShadow {
+  fill: #666;
+}
+
+.blocklyFlyoutButton:hover {
+  fill: #aaa;
+}
+
+.blocklyFlyoutLabel {
+  cursor: default;
+}
+
+.blocklyFlyoutLabelBackground {
+  opacity: 0;
+}
+
+
+.blocklyToolboxCategory:not(.blocklyToolboxSelected):hover {
+  background-color: rgba(255, 255, 255, .2);
+}
+
+.blocklyToolbox[layout="h"] .blocklyToolboxCategoryContainer {
+  margin: 1px 5px 1px 0;
+}
+
+.blocklyToolbox[dir="RTL"][layout="h"] .blocklyToolboxCategoryContainer {
+  margin: 1px 0 1px 5px;
+}
+
+.blocklyToolboxCategory {
+  height: 22px;
+  line-height: 22px;
+  margin-bottom: 3px;
+  padding-right: 8px;
+  white-space: nowrap;
+}
+
+.blocklyToolbox[dir="RTL"] .blocklyToolboxCategory {
+  margin-left: 8px;
+  padding-right: 0;
+}
+
+.blocklyToolboxCategoryIcon {
+  background-image: url(../../media/sprites.png);
+  height: 16px;
+  vertical-align: middle;
+  visibility: hidden;
+  width: 16px;
+}
+
+.blocklyToolboxCategoryIconClosed {
+  background-position: -32px -1px;
+}
+
+.blocklyToolbox[dir="RTL"] .blocklyToolboxCategoryIconClosed {
+  background-position: 0 -1px;
+}
+
+.blocklyToolboxSelected>.blocklyToolboxCategoryIconClosed {
+  background-position: -32px -17px;
+}
+
+.blocklyToolbox[dir="RTL"] .blocklyToolboxSelected>.blocklyToolboxCategoryIconClosed {
+  background-position: 0 -17px;
+}
+
+.blocklyToolboxCategoryIconOpen {
+  background-position: -16px -1px;
+}
+
+.blocklyToolboxSelected>.blocklyToolboxCategoryIconOpen {
+  background-position: -16px -17px;
+}
+
+.blocklyToolboxCategoryLabel {
+  cursor: default;
+  font: 16px sans-serif;
+  padding: 0 3px;
+  vertical-align: middle;
+}
+
+.blocklyToolboxDelete .blocklyToolboxCategoryLabel {
+  cursor: url("../../media/handdelete.cur"), auto;
+}
+
+.blocklyToolboxSelected .blocklyToolboxCategoryLabel {
+  color: #fff;
+}
+
+
+.blocklyTreeSeparator {
+  border-bottom: solid #e5e5e5 1px;
+  height: 0;
+  margin: 5px 0;
+}
+
+.blocklyToolbox[layout="h"] .blocklyTreeSeparator {
+  border-right: solid #e5e5e5 1px;
+  border-bottom: none;
+  height: auto;
+  margin: 0 5px 0 5px;
+  padding: 5px 0;
+  width: 0;
+}
+
+
+.blocklyToolboxDelete {
+  cursor: url("../../media/handdelete.cur"), auto;
+}
+
+.blocklyToolboxGrab {
+  cursor: url("../../media/handclosed.cur"), auto;
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+}
+
+/* Category tree in Toolbox. */
+.blocklyToolbox {
+  box-sizing: border-box;
+  user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  background-color: #ddd;
+  overflow-x: visible;
+  overflow-y: auto;
+  padding: 4px 0 4px 0;
+  position: absolute;
+  z-index: 70;  /* so blocks go under toolbox when dragging */
+  -webkit-tap-highlight-color: transparent;  /* issue #1345 */
+}
+
+.blocklyToolboxCategoryGroup {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.blocklyToolboxCategoryGroup:focus {
+  outline: none;
+}
+</style>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google" value="notranslate">
+  <title>Blockly Demo: Code</title>
+  <link rel="stylesheet" href="./index_scratch_files/style.css">
+  <script src="./index_scratch_files/storage.js.download"></script>
+  <script src="./index_scratch_files/blockly_compressed.js.download"></script>
+  <script src="./index_scratch_files/blocks_compressed.js.download"></script>
+  <script src="./index_scratch_files/javascript_compressed.js.download"></script>
+  <script src="./index_scratch_files/python_compressed.js.download"></script>
+  <script src="./index_scratch_files/php_compressed.js.download"></script>
+  <script src="./index_scratch_files/lua_compressed.js.download"></script>
+  <script src="./index_scratch_files/dart_compressed.js.download"></script>
+  <script src="./index_scratch_files/code.js.download"></script><script src="./index_scratch_files/en.js.download"></script>
+<script src="./index_scratch_files/en(1).js.download"></script>
+
+<link rel="stylesheet" type="text/css" href="./index_scratch_files/prettify.css"></head>
+<body>
+  <table width="100%" height="100%">
+    <tbody><tr>
+      <td>
+        <h1><a href="https://developers.google.com/blockly/">Blockly</a>‏ &gt;
+          <a href="https://blockly-demo.appspot.com/static/demos/index.html">Demos</a>‏ &gt;
+          <span id="title">Code</span>
+        </h1>
+      </td>
+      <td class="farSide">
+        <select id="languageMenu"><option value="ms">Bahasa Melayu</option><option value="br">Brezhoneg</option><option value="ca">Català</option><option value="da">Dansk</option><option value="de">Deutsch</option><option value="et">Eesti</option><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option><option value="hr">Hrvatski</option><option value="hrx">Hunsrik</option><option value="ia">Interlingua</option><option value="it">Italiano</option><option value="kab">Kabyle</option><option value="oc">Lenga d'òc</option><option value="hu">Magyar</option><option value="nl">Nederlands, Vlaams</option><option value="nb">Norsk Bokmål</option><option value="pms">Piemontèis</option><option value="pl">Polski</option><option value="pt-br">Português Brasileiro</option><option value="ro">Română</option><option value="sc">Sardu</option><option value="sk">Slovenčina</option><option value="sv">Svenska</option><option value="be-tarask">Taraškievica</option><option value="vi">Tiếng Việt</option><option value="tr">Türkçe</option><option value="tlh">tlhIngan Hol</option><option value="is">Íslenska</option><option value="cs">Česky</option><option value="el">Ελληνικά</option><option value="mk">Македонски</option><option value="ru">Русский</option><option value="sr">Српски</option><option value="uk">Українська</option><option value="he">עברית</option><option value="ar">العربية</option><option value="fa">فارسی</option><option value="ta">தமிழ்</option><option value="th">ภาษาไทย</option><option value="ja">日本語</option><option value="zh-hant">正體中文</option><option value="zh-hans">简体中文</option><option value="ko">한국어</option></select>
+        <a class="privacyLink" href="https://policies.google.com/privacy">Privacy</a>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <table width="100%">
+          <tbody><tr id="tabRow" height="1em">
+            <td id="tab_blocks" class="tabon">Blocks</td>
+            <td class="tabmin tab_collapse">&nbsp;</td>
+            <td id="tab_javascript" class="taboff tab_collapse">JavaScript</td>
+            <td class="tabmin tab_collapse">&nbsp;</td>
+            <td id="tab_python" class="taboff tab_collapse">Python</td>
+            <td class="tabmin tab_collapse">&nbsp;</td>
+            <td id="tab_php" class="taboff tab_collapse">PHP</td>
+            <td class="tabmin tab_collapse">&nbsp;</td>
+            <td id="tab_lua" class="taboff tab_collapse">Lua</td>
+            <td class="tabmin tab_collapse">&nbsp;</td>
+            <td id="tab_dart" class="taboff tab_collapse">Dart</td>
+            <td class="tabmin tab_collapse">&nbsp;</td>
+            <td id="tab_xml" class="taboff tab_collapse">XML</td>
+            <td class="tabmin tab_collapse">&nbsp;</td>
+            <td id="tab_json" class="taboff tab_collapse">JSON</td>
+            <td class="tabmin">&nbsp;</td>
+            <td id="tab_code" class="taboff">
+              <select id="code_menu"><option value="javascript">JavaScript</option><option value="php">PHP</option><option value="python">Python</option><option value="dart">Dart</option><option value="lua">Lua</option><option value="xml">XML</option><option value="json">JSON</option></select>
+            </td>
+            <td class="tabmax">
+              <button id="trashButton" class="notext" title="Discard all blocks.">
+                <img src="./index_scratch_files/1x1.gif" class="trash icon21">
+              </button>
+              <button id="linkButton" class="notext" title="Save and link to blocks.">
+                <img src="./index_scratch_files/1x1.gif" class="link icon21">
+              </button>
+              <button id="runButton" class="notext primary" title="Run the program defined by the blocks in the workspace.">
+                <img src="./index_scratch_files/1x1.gif" class="run icon21">
+              </button>
+            </td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+    <tr>
+      <td height="99%" colspan="2" id="content_area">
+      </td>
+    </tr>
+  </tbody></table>
+  <div id="content_blocks" class="content" style="visibility: visible; top: 85px; left: 0px; height: 647px; width: 1528px;"><div class="injectionDiv geras-renderer classic-theme" dir="LTR" style="--blocklyGridPattern: url(#blocklyGridPattern5162284069611762); --blocklyEmbossFilter: url(#blocklyEmbossFilter7621338256470863); --blocklyDisabledPattern: url(#blocklyDisabledPattern7621338256470863); --blocklyDebugFilter: url(#blocklyDebugFilter7621338256470863);"><div layout="v" class="blocklyToolbox" dir="LTR" id="blockly-0" style="display: block; left: 0px; height: 100%;" tabindex="0"><div class="blocklyToolboxCategoryGroup" role="tree" aria-activedescendant=""><div tabindex="-1" id="blockly-1" class="blocklyToolboxCategoryContainer" role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="blockly-1.label"><div class="blocklyToolboxCategory" id="blockly-1" style="padding-left: 0px; pointer-events: auto; border-left: 8px solid rgb(91, 128, 165);"><div class="blocklyTreeRowContentContainer" style="pointer-events: none;"><span class="blocklyToolboxCategoryIcon" role="presentation" style="display: inline-block;"></span><span id="blockly-1.label" class="blocklyToolboxCategoryLabel">Logic</span></div></div></div><div tabindex="-1" id="blockly-2" class="blocklyToolboxCategoryContainer" role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="blockly-2.label"><div class="blocklyToolboxCategory" id="blockly-2" style="padding-left: 0px; pointer-events: auto; border-left: 8px solid rgb(91, 165, 91);"><div class="blocklyTreeRowContentContainer" style="pointer-events: none;"><span class="blocklyToolboxCategoryIcon" role="presentation" style="display: inline-block;"></span><span id="blockly-2.label" class="blocklyToolboxCategoryLabel">Loops</span></div></div></div><div tabindex="-1" id="blockly-3" class="blocklyToolboxCategoryContainer" role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="blockly-3.label"><div class="blocklyToolboxCategory" id="blockly-3" style="padding-left: 0px; pointer-events: auto; border-left: 8px solid rgb(91, 103, 165);"><div class="blocklyTreeRowContentContainer" style="pointer-events: none;"><span class="blocklyToolboxCategoryIcon" role="presentation" style="display: inline-block;"></span><span id="blockly-3.label" class="blocklyToolboxCategoryLabel">Math</span></div></div></div><div tabindex="-1" id="blockly-4" class="blocklyToolboxCategoryContainer" role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="blockly-4.label"><div class="blocklyToolboxCategory" id="blockly-4" style="padding-left: 0px; pointer-events: auto; border-left: 8px solid rgb(91, 165, 140);"><div class="blocklyTreeRowContentContainer" style="pointer-events: none;"><span class="blocklyToolboxCategoryIcon" role="presentation" style="display: inline-block;"></span><span id="blockly-4.label" class="blocklyToolboxCategoryLabel">Text</span></div></div></div><div tabindex="-1" id="blockly-5" class="blocklyToolboxCategoryContainer" role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="blockly-5.label"><div class="blocklyToolboxCategory" id="blockly-5" style="padding-left: 0px; pointer-events: auto; border-left: 8px solid rgb(116, 91, 165);"><div class="blocklyTreeRowContentContainer" style="pointer-events: none;"><span class="blocklyToolboxCategoryIcon" role="presentation" style="display: inline-block;"></span><span id="blockly-5.label" class="blocklyToolboxCategoryLabel">Lists</span></div></div></div><div tabindex="-1" id="blockly-6" class="blocklyTreeSeparator"></div><div tabindex="-1" id="blockly-7" class="blocklyToolboxCategoryContainer blocklyPassiveFocus" role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="blockly-7.label"><div class="blocklyToolboxCategory" id="blockly-7" style="padding-left: 0px; pointer-events: auto; border-left: 8px solid rgb(165, 91, 128);"><div class="blocklyTreeRowContentContainer" style="pointer-events: none;"><span class="blocklyToolboxCategoryIcon" role="presentation" style="display: inline-block;"></span><span id="blockly-7.label" class="blocklyToolboxCategoryLabel">Variables</span></div></div></div><div tabindex="-1" id="blockly-8" class="blocklyToolboxCategoryContainer" role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="blockly-8.label"><div class="blocklyToolboxCategory" id="blockly-8" style="padding-left: 0px; pointer-events: auto; border-left: 8px solid rgb(153, 91, 165);"><div class="blocklyTreeRowContentContainer" style="pointer-events: none;"><span class="blocklyToolboxCategoryIcon" role="presentation" style="display: inline-block;"></span><span id="blockly-8.label" class="blocklyToolboxCategoryLabel">Functions</span></div></div></div></div></div><svg xmlns="http://www.w3.org/2000/svg" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="blocklySvg" width="1528px" data-cached-width="1528" height="647px" data-cached-height="647" style="display: block;"><defs><pattern id="blocklyGridPattern5162284069611762" patternUnits="userSpaceOnUse" width="25" height="25" x="107" y="0"><line stroke="#ccc" stroke-width="1" x1="11" y1="12.5" x2="14" y2="12.5"></line><line stroke="#ccc" stroke-width="1" x1="12.5" y1="11" x2="12.5" y2="14"></line></pattern></defs><g class="blocklyWorkspace blocklyPassiveFocus" id="8kM*F)L)u8yz{:,tY9)7" aria-label="Blockly Workspace" tabindex="0"><rect height="100%" width="100%" class="blocklyMainBackground" style="fill: var(--blocklyGridPattern);"></rect><g class="blocklyTrash" transform="translate(1446,552)" style="opacity: 0.4;"><clippath id="blocklyTrashBodyClipPath21322042886310832"><rect width="47" height="44" y="16"></rect></clippath><image width="96" x="0" height="124" y="-32" clip-path="url(#blocklyTrashBodyClipPath21322042886310832)" xlink:href="../../media/sprites.png"></image><clippath id="blocklyTrashLidClipPath21322042886310832"><rect width="47" height="16"></rect></clippath><image width="96" x="0" height="124" y="-32" clip-path="url(#blocklyTrashLidClipPath21322042886310832)" xlink:href="../../media/sprites.png" transform="rotate(0,43,14)"></image></g><g class="blocklyBlockCanvas" transform="translate(107, 0) scale(1)"></g><g class="blocklyBubbleCanvas" transform="translate(107, 0) scale(1)"></g><rect height="15" width="15" class="blocklyScrollbarBackground" x="1512.5" y="631.5"></rect><defs><filter id="blocklyEmbossFilter7621338256470863"><fegaussianblur in="SourceAlpha" stdDeviation="1" result="blur"></fegaussianblur><fespecularlighting in="blur" surfaceScale="1" specularConstant="0.5" specularExponent="10" lighting-color="white" result="specOut"><fepointlight x="-5000" y="-10000" z="20000"></fepointlight></fespecularlighting><fecomposite in="specOut" in2="SourceAlpha" operator="in" result="specOut"></fecomposite><fecomposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"></fecomposite></filter><pattern id="blocklyDisabledPattern7621338256470863" patternUnits="userSpaceOnUse" width="10" height="10"><rect width="10" height="10" fill="#aaa"></rect><path d="M 0 0 L 10 10 M 10 0 L 0 10" stroke="#cc0"></path></pattern><filter id="blocklyDebugFilter7621338256470863" height="160%" width="180%" y="-30%" x="-40%"><fecomponenttransfer result="outBlur"><fefunca type="table" tableValues="0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"></fefunca></fecomponenttransfer><feflood flood-color="#ff0000" flood-opacity="0.5" result="outColor"></feflood><fecomposite in="outColor" in2="outBlur" operator="in" result="outGlow"></fecomposite></filter></defs><g transform="translate(1461,423)"><g class="blocklyZoom blocklyZoomOut" transform="translate(0, 77)"><clippath id="blocklyZoomoutClipPath7019672648874856"><rect width="32" height="32"></rect></clippath><image width="96" height="124" x="-64" y="-92" clip-path="url(#blocklyZoomoutClipPath7019672648874856)" xlink:href="../../media/sprites.png"></image></g><g class="blocklyZoom blocklyZoomIn" transform="translate(0, 43)"><clippath id="blocklyZoominClipPath7019672648874856"><rect width="32" height="32"></rect></clippath><image width="96" height="124" x="-32" y="-92" clip-path="url(#blocklyZoominClipPath7019672648874856)" xlink:href="../../media/sprites.png"></image></g><g class="blocklyZoom blocklyZoomReset"><clippath id="blocklyZoomresetClipPath7019672648874856"><rect width="32" height="32"></rect></clippath><image width="96" height="124" y="-92" clip-path="url(#blocklyZoomresetClipPath7019672648874856)" xlink:href="../../media/sprites.png"></image></g></g></g></svg><svg class="blocklyScrollbarVertical blocklyMainWorkspaceScrollbar" width="15" height="631" style="transform: translate(1512.5px, 0.5px);" display="block"><g><rect class="blocklyScrollbarBackground" width="15" height="631"></rect><rect class="blocklyScrollbarHandle" rx="5" ry="5" width="10" x="2.5" height="315.5" y="315.5"></rect></g></svg><svg class="blocklyScrollbarHorizontal blocklyMainWorkspaceScrollbar" height="15" width="1405" style="transform: translate(107.5px, 631.5px);" display="block"><g><rect class="blocklyScrollbarBackground" height="15" width="1405"></rect><rect class="blocklyScrollbarHandle" rx="5" ry="5" height="10" y="2.5" width="702.5" x="702.5"></rect></g></svg><svg class="blocklyFlyout blocklyTrashcanFlyout" style="display: none;"><path class="blocklyFlyoutBackground"></path><g class="blocklyWorkspace" id="}g^FaD7:bK9`{x~7-XZu" tabindex="0"><g class="blocklyBlockCanvas"></g><g class="blocklyBubbleCanvas"></g><defs><filter id="blocklyEmbossFilter29126130494338565"><fegaussianblur in="SourceAlpha" stdDeviation="1" result="blur"></fegaussianblur><fespecularlighting in="blur" surfaceScale="1" specularConstant="0.5" specularExponent="10" lighting-color="white" result="specOut"><fepointlight x="-5000" y="-10000" z="20000"></fepointlight></fespecularlighting><fecomposite in="specOut" in2="SourceAlpha" operator="in" result="specOut"></fecomposite><fecomposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"></fecomposite></filter><pattern id="blocklyDisabledPattern29126130494338565" patternUnits="userSpaceOnUse" width="10" height="10"><rect width="10" height="10" fill="#aaa"></rect><path d="M 0 0 L 10 10 M 10 0 L 0 10" stroke="#cc0"></path></pattern><filter id="blocklyDebugFilter29126130494338565" height="160%" width="180%" y="-30%" x="-40%"><fecomponenttransfer result="outBlur"><fefunca type="table" tableValues="0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"></fefunca></fecomponenttransfer><feflood flood-color="#ff0000" flood-opacity="0.5" result="outColor"></feflood><fecomposite in="outColor" in2="outBlur" operator="in" result="outGlow"></fecomposite></filter></defs></g></svg><svg class="blocklyScrollbarVertical blocklyFlyoutScrollbar" width="15"><g><rect class="blocklyScrollbarBackground" width="15"></rect><rect class="blocklyScrollbarHandle" rx="5" ry="5" width="10" x="2.5"></rect></g></svg><svg class="blocklyFlyout blocklyToolboxFlyout" width="156.63201904296875" height="647" data-cached-width="156.63201904296875" data-cached-height="647" style="display: none; transform: translate(107px, 0px);"><path class="blocklyFlyoutBackground" d="M 0,0 h 148.63201904296875 a 8 8 0 0 1 8 8 v 631 a 8 8 0 0 1 -8 8 h -148.63201904296875 z"></path><g class="blocklyWorkspace" id="#:=h[jBhGHIJ+t#Ye;KW" tabindex="0"><g class="blocklyBlockCanvas" transform="translate(0, 0) scale(1)"><g id="blockly-19" class="blocklyFlyoutButton" transform="translate(16,8)" display="block"><rect class="blocklyFlyoutButtonShadow" rx="4" ry="4" x="1" y="1" width="121.63201904296875" height="22"></rect><rect class="blocklyFlyoutButtonBackground" rx="4" ry="4" width="121.63201904296875" height="22"></rect><text class="blocklyText" x="60.816009521484375" y="16" text-anchor="middle">Create variable...</text></g></g><g class="blocklyBubbleCanvas" transform="translate(0, 0) scale(1)"></g><defs><filter id="blocklyEmbossFilter6786407677168977"><fegaussianblur in="SourceAlpha" stdDeviation="1" result="blur"></fegaussianblur><fespecularlighting in="blur" surfaceScale="1" specularConstant="0.5" specularExponent="10" lighting-color="white" result="specOut"><fepointlight x="-5000" y="-10000" z="20000"></fepointlight></fespecularlighting><fecomposite in="specOut" in2="SourceAlpha" operator="in" result="specOut"></fecomposite><fecomposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"></fecomposite></filter><pattern id="blocklyDisabledPattern6786407677168977" patternUnits="userSpaceOnUse" width="10" height="10"><rect width="10" height="10" fill="#aaa"></rect><path d="M 0 0 L 10 10 M 10 0 L 0 10" stroke="#cc0"></path></pattern><filter id="blocklyDebugFilter6786407677168977" height="160%" width="180%" y="-30%" x="-40%"><fecomponenttransfer result="outBlur"><fefunca type="table" tableValues="0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"></fefunca></fecomponenttransfer><feflood flood-color="#ff0000" flood-opacity="0.5" result="outColor"></feflood><fecomposite in="outColor" in2="outBlur" operator="in" result="outGlow"></fecomposite></filter></defs></g></svg><svg class="blocklyScrollbarVertical blocklyFlyoutScrollbar" width="15" display="none" height="642" style="transform: translate(246.132px, 2.5px);"><g><rect class="blocklyScrollbarBackground" width="15" height="642"></rect><rect class="blocklyScrollbarHandle" rx="5" ry="5" width="10" x="2.5" height="642" y="0"></rect></g></svg><svg class="blocklyBlockDragSurface" xmlns="http://www.w3.org/2000/svg" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"><g transform="translate(107, 0) scale(1)"></g></svg><svg class="blocklyAnimationLayer" xmlns="http://www.w3.org/2000/svg" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"><g></g></svg></div></div>
+  <pre id="content_javascript" class="content prettyprint lang-js prettyprinted" style="visibility: hidden; top: 85px; left: 0px; height: 633px; width: 1514px;"></pre>
+  <pre id="content_python" class="content prettyprint lang-py prettyprinted" style="visibility: hidden; top: 85px; left: 0px; height: 633px; width: 1514px;"></pre>
+  <pre id="content_php" class="content prettyprint lang-php prettyprinted" style="visibility: hidden; top: 85px; left: 0px; height: 633px; width: 1514px;"></pre>
+  <pre id="content_lua" class="content prettyprint lang-lua prettyprinted" style="visibility: hidden; top: 85px; left: 0px; height: 633px; width: 1514px;"></pre>
+  <pre id="content_dart" class="content prettyprint lang-dart prettyprinted" style="visibility: hidden; top: 85px; left: 0px; height: 633px; width: 1514px;"></pre>
+  <textarea id="content_xml" class="content" wrap="off" style="visibility: hidden; top: 85px; left: 0px; height: 632px; width: 1513px;"></textarea>
+  <textarea id="content_json" class="content" wrap="off" style="visibility: hidden; top: 85px; left: 0px; height: 632px; width: 1513px;"></textarea>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+    <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+      <block type="logic_boolean"></block>
+      <block type="logic_null"></block>
+      <block type="logic_ternary"></block>
+    </category>
+    <category name="%{BKY_CATLOOPS}" colour="%{BKY_LOOPS_HUE}">
+      <block type="controls_repeat_ext">
+        <value name="TIMES">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="controls_whileUntil"></block>
+      <block type="controls_for">
+        <value name="FROM">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="TO">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+        <value name="BY">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="controls_forEach"></block>
+      <block type="controls_flow_statements"></block>
+    </category>
+    <category name="%{BKY_CATMATH}" colour="%{BKY_MATH_HUE}">
+      <block type="math_number">
+        <field name="NUM">123</field>
+      </block>
+      <block type="math_arithmetic">
+        <value name="A">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="B">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_single">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">9</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_trig">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">45</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_constant"></block>
+      <block type="math_number_property">
+        <value name="NUMBER_TO_CHECK">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_round">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">3.1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_on_list"></block>
+      <block type="math_modulo">
+        <value name="DIVIDEND">
+          <shadow type="math_number">
+            <field name="NUM">64</field>
+          </shadow>
+        </value>
+        <value name="DIVISOR">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_constrain">
+        <value name="VALUE">
+          <shadow type="math_number">
+            <field name="NUM">50</field>
+          </shadow>
+        </value>
+        <value name="LOW">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="HIGH">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_random_int">
+        <value name="FROM">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="TO">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
+      <block type="math_atan2">
+        <value name="X">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="Y">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+    </category>
+    <category name="%{BKY_CATTEXT}" colour="%{BKY_TEXTS_HUE}">
+      <block type="text"></block>
+      <block type="text_join"></block>
+      <block type="text_append">
+        <value name="TEXT">
+          <shadow type="text"></shadow>
+        </value>
+      </block>
+      <block type="text_length">
+        <value name="VALUE">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_isEmpty">
+        <value name="VALUE">
+          <shadow type="text">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_indexOf">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR">{textVariable}</field>
+          </block>
+        </value>
+        <value name="FIND">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_charAt">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR">{textVariable}</field>
+          </block>
+        </value>
+      </block>
+      <block type="text_getSubstring">
+        <value name="STRING">
+          <block type="variables_get">
+            <field name="VAR">{textVariable}</field>
+          </block>
+        </value>
+      </block>
+      <block type="text_changeCase">
+        <value name="TEXT">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_trim">
+        <value name="TEXT">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_print">
+        <value name="TEXT">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_prompt_ext">
+        <value name="TEXT">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+    </category>
+    <category name="%{BKY_CATLISTS}" colour="%{BKY_LISTS_HUE}">
+      <block type="lists_create_with">
+        <mutation items="0"></mutation>
+      </block>
+      <block type="lists_create_with"></block>
+      <block type="lists_repeat">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">5</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="lists_length"></block>
+      <block type="lists_isEmpty"></block>
+      <block type="lists_indexOf">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR">{listVariable}</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_getIndex">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR">{listVariable}</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_setIndex">
+        <value name="LIST">
+          <block type="variables_get">
+            <field name="VAR">{listVariable}</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_getSublist">
+        <value name="LIST">
+          <block type="variables_get">
+            <field name="VAR">{listVariable}</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_split">
+        <value name="DELIM">
+          <shadow type="text">
+            <field name="TEXT">,</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="lists_sort"></block>
+    </category>
+    <sep></sep>
+    <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
+    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
+  </xml>
+
+
+
+<div class="blocklyWidgetDiv geras-renderer classic-theme" tabindex="-1" style="direction: ltr; display: block; left: 533.6px; top: 199.2px; height: 171px;"><div class="blocklyMenu blocklyContextMenu" tabindex="0" role="menu"><div id="blockly-1a" class="blocklyMenuItem blocklyMenuItemDisabled " role="menuitem" aria-selected="false" aria-disabled="true"><div class="blocklyMenuItemContent">Undo</div></div><div id="blockly-1b" class="blocklyMenuItem blocklyMenuItemDisabled " role="menuitem" aria-selected="false" aria-disabled="true"><div class="blocklyMenuItemContent">Redo</div></div><div id="blockly-1c" class="blocklyMenuItem blocklyMenuItemDisabled " role="menuitem" aria-selected="false" aria-disabled="true"><div class="blocklyMenuItemContent">Clean up Blocks</div></div><div id="blockly-1d" class="blocklyMenuItem blocklyMenuItemDisabled " role="menuitem" aria-selected="false" aria-disabled="true"><div class="blocklyMenuItemContent">Collapse Blocks</div></div><div id="blockly-1e" class="blocklyMenuItem blocklyMenuItemDisabled " role="menuitem" aria-selected="false" aria-disabled="true"><div class="blocklyMenuItemContent">Expand Blocks</div></div><div id="blockly-1f" class="blocklyMenuItem blocklyMenuItemDisabled " role="menuitem" aria-selected="false" aria-disabled="true"><div class="blocklyMenuItemContent">Delete 0 Blocks</div></div></div></div><div class="blocklyDropDownDiv" tabindex="-1" style="opacity: 0; transition: transform 0.25s, opacity 0.25s;"><div class="blocklyDropDownContent"></div><div class="blocklyDropDownArrow"></div></div><div class="blocklyTooltipDiv"></div><div id="x9kq7-widget" style="display: none;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .yte-widget {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    width: min(430px, calc(100vw - 32px));
+    height: 290px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    background:
+      radial-gradient(120% 140% at 100% 0%, rgba(114, 224, 192, 0.24), rgba(114, 224, 192, 0) 55%),
+      radial-gradient(100% 120% at 0% 100%, rgba(85, 140, 255, 0.18), rgba(85, 140, 255, 0) 52%),
+      #101416;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.42);
+    color: #eff7f4;
+    overflow: hidden;
+    z-index: 2147483647;
+    font-family: "Segoe UI", Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(0);
+    opacity: 1;
+    transition: opacity 220ms ease, transform 220ms ease, box-shadow 220ms ease;
+  }
+
+  .yte-widget__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .yte-widget__title-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .yte-widget__label {
+    margin: 0;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(239, 247, 244, 0.62);
+  }
+
+  .yte-widget__title {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+    color: #f5fffb;
+  }
+
+  .yte-widget__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .yte-widget__close-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.07);
+    color: #dff9ef;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease;
+  }
+
+  .yte-widget__close-btn:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .yte-widget__body {
+    flex: 1;
+    padding: 12px 16px;
+    overflow: hidden;
+  }
+
+  .yte-widget__view {
+    display: none;
+  }
+
+  .yte-widget__view[data-visible="true"] {
+    display: block;
+  }
+
+  .yte-widget__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .yte-widget__list--results {
+    gap: 12px;
+  }
+
+  .yte-widget__option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.3;
+    color: #ecf5f2;
+    cursor: pointer;
+    padding: 8px 9px;
+    border-radius: 10px;
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .yte-widget__option:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateX(2px);
+  }
+
+  .yte-widget__checkbox {
+    margin-top: 1px;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.44);
+    background: rgba(0, 0, 0, 0.16);
+    position: relative;
+    cursor: pointer;
+    transition: border-color 160ms ease, background-color 160ms ease, box-shadow 180ms ease, transform 150ms ease;
+  }
+
+  .yte-widget__checkbox::after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 9px;
+    left: 6px;
+    top: 2px;
+    border-right: 2px solid #0f1614;
+    border-bottom: 2px solid #0f1614;
+    transform: rotate(45deg) scale(0.3);
+    opacity: 0;
+    transition: transform 150ms ease, opacity 150ms ease;
+  }
+
+  .yte-widget__checkbox:hover {
+    border-color: rgba(125, 235, 200, 0.9);
+    box-shadow: 0 0 0 3px rgba(47, 195, 161, 0.14);
+  }
+
+  .yte-widget__checkbox:active {
+    transform: scale(0.96);
+  }
+
+  .yte-widget__checkbox:checked {
+    border-color: rgba(125, 235, 200, 0.95);
+    background: linear-gradient(180deg, #85efcb, #3cc9a8);
+    box-shadow: 0 0 0 3px rgba(47, 195, 161, 0.2);
+  }
+
+  .yte-widget__checkbox:checked::after {
+    transform: rotate(45deg) scale(1);
+    opacity: 1;
+  }
+
+  .yte-widget__checkbox:focus-visible {
+    outline: 2px solid rgba(141, 236, 207, 0.95);
+    outline-offset: 2px;
+  }
+
+  .yte-widget__footer {
+    height: 52px;
+    padding: 0 16px 14px;
+    display: flex;
+    align-items: flex-end;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .yte-widget__vote-btn {
+    width: 100%;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: linear-gradient(180deg, #f8fffc, #d8eee6);
+    color: #0e1614;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 170ms ease, box-shadow 170ms ease, filter 170ms ease;
+  }
+
+  .yte-widget__vote-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(20, 30, 26, 0.25);
+    filter: brightness(1.01);
+  }
+
+  .yte-widget__vote-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(20, 30, 26, 0.22);
+  }
+
+  .yte-widget__vote-btn:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+
+  .yte-widget__result {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+  }
+
+  .yte-widget__result-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .yte-widget__feature-name {
+    color: #f0faf6;
+    font-size: 13px;
+    line-height: 1.25;
+  }
+
+  .yte-widget__votes {
+    color: rgba(235, 245, 242, 0.82);
+    white-space: nowrap;
+    font-size: 12px;
+  }
+
+  .yte-widget__bar {
+    height: 8px;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.16);
+    overflow: hidden;
+  }
+
+  .yte-widget__bar-fill {
+    height: 100%;
+    width: var(--progress);
+    background: linear-gradient(90deg, #2fc3a1, #7debc8);
+    transition: width 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (max-width: 640px) {
+    .yte-widget {
+      width: calc(100vw - 32px);
+      height: 300px;
+      border-radius: 14px;
+    }
+
+    .yte-widget__title {
+      font-size: 18px;
+    }
+  }
+</style><div style="display: none;">
+    <section class="yte-widget" style="display: none;">
+      <header class="yte-widget__header">
+        <div class="yte-widget__title-wrap">
+          <p class="yte-widget__label">Feature Voting</p>
+          <h3 class="yte-widget__title">Features to vote for</h3>
+        </div>
+        <div class="yte-widget__actions">
+          <button class="yte-widget__close-btn" type="button" aria-label="Close">×</button>
+        </div>
+      </header>
+      <div class="yte-widget__body">
+        <div class="yte-widget__view yte-widget__view--vote" data-visible="true">
+          <ul class="yte-widget__list">
+            
+  <li>
+    <label class="yte-widget__option">
+      <input class="yte-widget__checkbox" type="checkbox" data-feature-id="hide_selected">
+      <span>Hide selected elements (Shorts, comments and/or recommendations)</span>
+    </label>
+  </li>
+
+  <li>
+    <label class="yte-widget__option">
+      <input class="yte-widget__checkbox" type="checkbox" data-feature-id="custom_filters">
+      <span>Custom video filters</span>
+    </label>
+  </li>
+
+  <li>
+    <label class="yte-widget__option">
+      <input class="yte-widget__checkbox" type="checkbox" data-feature-id="return_dislike">
+      <span>Return Dislike counter</span>
+    </label>
+  </li>
+
+          </ul>
+        </div>
+        <div class="yte-widget__view yte-widget__view--results" data-visible="false">
+          <ul class="yte-widget__list yte-widget__list--results">
+            
+      <li class="yte-widget__result" data-feature-id="hide_selected">
+        <div class="yte-widget__result-head">
+          <span class="yte-widget__feature-name">Hide selected elements (Shorts, comments and/or recommendations)</span>
+          <span class="yte-widget__votes">68 votes</span>
+        </div>
+        <div class="yte-widget__bar">
+          <div class="yte-widget__bar-fill" style="--progress:30.77%"></div>
+        </div>
+      </li>
+    
+      <li class="yte-widget__result" data-feature-id="custom_filters">
+        <div class="yte-widget__result-head">
+          <span class="yte-widget__feature-name">Custom video filters</span>
+          <span class="yte-widget__votes">87 votes</span>
+        </div>
+        <div class="yte-widget__bar">
+          <div class="yte-widget__bar-fill" style="--progress:39.37%"></div>
+        </div>
+      </li>
+    
+      <li class="yte-widget__result" data-feature-id="return_dislike">
+        <div class="yte-widget__result-head">
+          <span class="yte-widget__feature-name">Return Dislike counter</span>
+          <span class="yte-widget__votes">66 votes</span>
+        </div>
+        <div class="yte-widget__bar">
+          <div class="yte-widget__bar-fill" style="--progress:29.86%"></div>
+        </div>
+      </li>
+    
+          </ul>
+        </div>
+      </div>
+      <footer class="yte-widget__footer yte-widget__footer--vote" data-visible="true" style="display: flex;">
+        <button class="yte-widget__vote-btn" type="button">Submit vote</button>
+      </footer>
+      <footer class="yte-widget__footer yte-widget__footer--results" data-visible="false" style="display: none;">
+      </footer>
+    </section>
+  </div></template></div><canvas class="blocklyComputeCanvas"></canvas></body></html>
